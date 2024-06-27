@@ -16,6 +16,8 @@ class MultiMix3D:
         self.opc_start_string = "opc.tcp://"
         self.opcua_cl = ""
 
+        self.shutdown = False
+
         if hlp.is_valid_ip_address(client_addr):
             self.client_addr = client_addr
         else:
@@ -30,7 +32,8 @@ class MultiMix3D:
         try:
             self.opcua_cl = client.Client(self.get_client_string())
             self.opcua_cl.connect()
-            self.att_node = self.opcua_cl.get_objects_node().get_children()[3]
+            temp_node = self.opcua_cl.get_objects_node().get_children()[3]
+            self.values_node = temp_node.get_children[0].get_children()
             self.connected = True
 
         except TimeoutError as err:
@@ -42,6 +45,13 @@ class MultiMix3D:
 
     def get_client_string(self):
         return f"{self.opc_start_string}{self.client_addr}:{self.client_port}"
+    
+    def heartbeat_control(self):
+        hb_value = 'GECO/MPRX_EXT_Heartbeat'
+        hb_idx = 33
+
+        while not self.shutdown:
+            self.values_node[33]
 
 
         

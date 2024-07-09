@@ -1,5 +1,7 @@
 import ipaddress
 
+error_level = ['Normal','Low', 'Medium', 'High', 'Critical']
+
 def is_valid_ip_address(ip_str):
     # Check if the IP address is not empty
     if not ip_str:

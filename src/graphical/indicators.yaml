@@ -1,0 +1,56 @@
+indicators:
+  indicator_0:
+    NAME: mortar_temp
+    UNITS: "°C"
+    EDITABLE: 0
+    NODE_NAME: MPTX_DI_Mortar_Temperature_C_R
+    NODE_IDX: 40
+
+  indicator_1:
+    NAME: hose_pressure
+    UNITS: Bar
+    EDITABLE: 0
+    NODE_NAME: MP_Pump_Pressure_Current_bar_R
+    NODE_IDX: 56
+
+  indicator_2:
+    NAME: water_flowrate
+    UNITS: L/h
+    EDITABLE: 0
+    NODE_NAME: MP_Waterflowrate_current_Lh_R
+    NODE_IDX: 59
+
+  indicator_3:
+    NAME: set_water_flowrate
+    UNITS: L/h
+    EDITABLE: 0
+    NODE_NAME: MPRX_DI_Water_Flowrate_Set_lh_I
+    NODE_IDX: 26
+
+  indicator_4:
+    NAME: air_temp
+    UNITS: "°C"
+    EDITABLE: 0
+    NODE_NAME: MPTX_DI_Air_Temperature_C_R
+    NODE_IDX: 39
+
+  indicator_5:
+    NAME: air_humidity
+    UNITS: "%"
+    EDITABLE: 0
+    NODE_NAME: MPTX_DI_Air_Humidity_pct_R
+    NODE_IDX: 38
+
+  indicator_6:
+    NAME: mixer_run
+    UNITS: "BOOLEAN"
+    EDITABLE: 0
+    NODE_NAME: MPRX_EXT_MIX_Run
+    NODE_IDX: 38
+
+  indicator_7:
+    NAME: pump_run
+    UNITS: "BOOLEAN"
+    EDITABLE: 0
+    NODE_NAME: MPRX_EXT_Pump_Run
+    NODE_IDX: 35

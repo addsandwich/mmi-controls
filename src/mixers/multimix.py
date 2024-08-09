@@ -27,8 +27,10 @@ class MultiMix3D:
         self.connected = False
 
         self.mixer_shutdown = True
+        self.auto_shutdown = True
 
         self.heartbeat_thread = None
+        self.auto_thread = None
 
         self.messaging_queue_size = 30
         self.messaging_queue = Queue(self.messaging_queue_size)
@@ -115,6 +117,30 @@ class MultiMix3D:
             msg_str = "You need to connect to the multimix first"
             self.q_insert(msg_str, location, error=1)
 
+    def toggle_auto(self):
+        location = "toggle_auto"
+        
+        if self.connected or self.debug:
+            try:
+                if self.auto_shutdown:
+                    self.auto_shutdown = False
+                    msg_str = "Starting Auto"
+                    self.q_insert(msg_str, location)
+                    self.auto_thread = threading.Thread(target=self.auto_loop)
+                    self.auto_thread.daemon = True
+                    self.auto_thread.start()
+                    msg_str = "Auto Started"
+                    self.q_insert(msg_str, location)
+                else:
+                    self.stop_auto()
+            except KeyboardInterrupt:
+                self.stop_auto()
+                msg_str = "Keyboard Interrupt"
+                self.q_insert(msg_str, location, error=1)
+        else:
+            msg_str = "You need to connect to the multimix first"
+            self.q_insert(msg_str, location, error=1)
+
     def q_insert(self, msg, location, error=0):
 
         if self.messaging_queue.qsize() >= self.messaging_queue_size:
@@ -132,6 +158,15 @@ class MultiMix3D:
         self.mixer_shutdown = True
         self.heartbeat_thread.join()
         self.heartbeat_thread = None
+
+    def stop_auto(self):
+        msg_str = "Stopping Auto"
+        location = "stop_auto"
+        self.q_insert(msg_str, location)
+
+        self.auto_shutdown = True
+        self.auto_thread.join()
+        self.auto_thread = None
 
     def get_value(self, node_index):
         res = 0
@@ -158,5 +193,23 @@ class MultiMix3D:
         location = "heartbeat_loop"
         self.q_insert(msg_str, location)
 
+    def auto_loop(self):
+        # hb_value = 'GECO/MPRX_EXT_Heartbeat'
+        if not self.debug:
+            auto_idx = 48
+            auto_variant = self.values_node[auto_idx].get_data_value()
+            datavalue = opcua.ua.DataValue(opcua.ua.Variant(True, 
+                                                            auto_variant.Value.VariantType), status=None)
+        while not self.mixer_shutdown:
+            if not self.debug:
+                self.values_node[auto_idx].set_attribute(13, datavalue)
+            if self.debug:
+                msg_str = "Auto On Sent"
+                location = "auto_loop"
+                self.q_insert(msg_str, location)
+            time.sleep(self.sleeptime)
+        msg_str = "Auto Stopped"
+        location = "auto_loop"
+        self.q_insert(msg_str, location)
 
         

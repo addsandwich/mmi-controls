@@ -45,8 +45,8 @@ indicators:
     NAME: mixer_run
     UNITS: "BOOLEAN"
     EDITABLE: 0
-    NODE_NAME: MPRX_EXT_MIX_Run
-    NODE_IDX: 38
+    NODE_NAME: MP_Mixer_Run
+    NODE_IDX: 54
 
   indicator_7:
     NAME: pump_run

@@ -54,6 +54,10 @@ class MultiMix3DControllerGUI:
         self.heartbeat_stat = StringVar()
         self.heartbeat_stat.set(f'Heartbeat On: {not self.mx.mixer_shutdown}')
 
+                # Heartbeat Status
+        self.auto_stat = StringVar()
+        self.auto_stat.set(f'Automatic On: {not self.mx.auto_shutdown}')
+
         # Graphical Elements
         self.info_elements = {}
 
@@ -126,6 +130,15 @@ class MultiMix3DControllerGUI:
         else:
             self.info_elements["heartbeat_indicator"].config(style="Green.TLabel")
 
+    def toggle_auto_command(self):
+
+        self.mx.toggle_auto()
+        self.auto_stat.set(f'Automatic On: {not self.mx.auto_shutdown}')
+        if self.mx.mixer_shutdown:
+            self.info_elements["auto_indicator"].config(style="Red.TLabel")
+        else:
+            self.info_elements["auto_indicator"].config(style="Green.TLabel")
+
     def toggle_connect(self):
 
         if self.mx.connected:
@@ -181,7 +194,7 @@ class MultiMix3DControllerGUI:
                     break
                 temp = self.mx.get_value(index)
 
-                temp_num = str(round(self.indicators_conf[key]["UNITS"], 2))
+                temp_num = str(self.indicators_conf[key]["UNITS"])
 
                 # Entry for Indicator
                 self.indicators[key].set(f'{temp} {temp_num}')
@@ -193,8 +206,8 @@ class MultiMix3DControllerGUI:
             for key in self.indicators.keys():
                 # Change Indicator to Red
                 self.info_elements[key].config(style="Red.TLabel")
-        
 
+    
     def create_window(self):
 
         # Frame to hold the buttons
@@ -234,6 +247,11 @@ class MultiMix3DControllerGUI:
         heartbeat_button = ttk.Button(command_frame, text="Heartbeat Toggle", command=self.toggle_heartbeat_command)
         heartbeat_button.grid(row=0, column=2, padx=8)
 
+        # Button to toggle the auto mode
+        automatic_button = ttk.Button(command_frame, text="Automatic Toggle", command=self.toggle_auto_command)
+        automatic_button.grid(row=0, column=3, padx=8)
+
+
         # Entry widget for Messaging Indicator
         self.info_elements["messaging_indicator"] = ttk.Label(command_frame, textvariable=self.msg_stat, width=18)
         self.info_elements["messaging_indicator"].config(style="Red.TLabel")
@@ -249,9 +267,14 @@ class MultiMix3DControllerGUI:
         self.info_elements["heartbeat_indicator"].config(style="Red.TLabel")
         self.info_elements["heartbeat_indicator"].grid(row=1, column=2, padx=8, pady=5)
 
+        # Entry widget for Automatic Indicator
+        self.info_elements["auto_indicator"] = ttk.Label(command_frame, textvariable=self.auto_stat, width=18)
+        self.info_elements["auto_indicator"].config(style="Red.TLabel")
+        self.info_elements["auto_indicator"].grid(row=1, column=3, padx=8, pady=5)
+
         # Button to clear the info pane
         clear_button = ttk.Button(command_frame, text="Clear Text", command=self.clear_text)
-        clear_button.grid(row=0, column=3, padx=5)
+        clear_button.grid(row=0, column=4, padx=5)
 
         # Start the Tkinter main loop
         self.root.mainloop()
@@ -260,4 +283,4 @@ class MultiMix3DControllerGUI:
 if __name__ == "__main__":
     client_addr = "192.168.1.2"
     client_port = "48010"
-    MultiMix3DControllerGUI(client_addr, client_port, debug=True)
+    MultiMix3DControllerGUI(client_addr, client_port, debug=False)

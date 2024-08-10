@@ -200,7 +200,7 @@ class MultiMix3D:
             auto_variant = self.values_node[auto_idx].get_data_value()
             datavalue = opcua.ua.DataValue(opcua.ua.Variant(True, 
                                                             auto_variant.Value.VariantType), status=None)
-        while not self.mixer_shutdown:
+        while not self.auto_shutdown:
             if not self.debug:
                 self.values_node[auto_idx].set_attribute(13, datavalue)
             if self.debug:

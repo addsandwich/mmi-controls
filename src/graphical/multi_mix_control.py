@@ -134,7 +134,7 @@ class MultiMix3DControllerGUI:
 
         self.mx.toggle_auto()
         self.auto_stat.set(f'Automatic On: {not self.mx.auto_shutdown}')
-        if self.mx.mixer_shutdown:
+        if self.mx.auto_shutdown:
             self.info_elements["auto_indicator"].config(style="Red.TLabel")
         else:
             self.info_elements["auto_indicator"].config(style="Green.TLabel")

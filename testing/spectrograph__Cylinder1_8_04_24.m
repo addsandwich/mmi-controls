@@ -46,15 +46,16 @@ avg_power = mean(p_db(freq_range, :), 1);  % Average power across the specified 
 avg_power_time = new_time_utc(1) + seconds(t);  % Match the average power time to the time bins
 
 % Define the time range you want to display
-start_time = new_time_utc(1);  % Start time (first timestamp in the interpolated signal)
-end_time = new_time_utc(end);  % End time (last timestamp in the interpolated signal)
+start_time = new_time_utc(2000);  % Start time (first timestamp in the interpolated signal)
+end_time = new_time_utc(3000);  % End time (last timestamp in the interpolated signal)
 
 % Create a figure with two subplots: one for the interpolated data and one for the average power
-%figure;
+figure;
+%colormap(jet); % You can replace 'jet' with other colormaps like 'hot', 'parula', or 'turbo'
 t = tiledlayout(4,1, 'TileSpacing','none','Padding','none');
 
 title_size = 16;
-font_size = 14
+font_size = 14;
 
 % 1st subplot: Plot the interpolated signal
 %ax1 = subplot(4,1,1);  % Three rows, one column, first plot
@@ -85,7 +86,7 @@ view(0, 90);
 xlabel('Time (UTC)', 'FontSize', font_size);
 ylabel('Frequency (Hz)', 'FontSize', font_size);
 title('Spectrogram - Frequency Change Over Time', 'FontSize', title_size);
-%colorbar;
+colorbar;
 xlim([start_time, end_time]);  % Set xlim for this subplot
 
 % 4th subplot: Plot the spectrogram
@@ -97,7 +98,7 @@ view(0, 90);
 xlabel('Time (UTC)', 'FontSize', font_size);
 ylabel('Frequency (Hz)', 'FontSize', font_size);
 title('Spectrogram - Anomalous Areas', 'FontSize', title_size);
-%colorbar;
+colorbar;
 xlim([start_time, end_time]);  % Set xlim for this subplot
 
 %linkaxes([ax1, ax2, ax3, ax4], 'x')

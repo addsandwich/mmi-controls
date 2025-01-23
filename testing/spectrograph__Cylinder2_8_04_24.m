@@ -51,49 +51,69 @@ end_time = new_time_utc(7000);  % End time (last timestamp in the interpolated s
 
 % Create a figure with two subplots: one for the interpolated data and one for the average power
 figure;
-colormap(jet); % You can replace 'jet' with other colormaps like 'hot', 'parula', or 'turbo'
+%colormap(jet); % You can replace 'jet' with other colormaps like 'hot', 'parula', or 'turbo'
+
+% Create a figure with two subplots: one for the interpolated data and one for the average power
+%figure;
+t = tiledlayout(4,1, 'TileSpacing','none','Padding','none');
+
+title_size = 16;
+font_size = 14;
 
 % 1st subplot: Plot the interpolated signal
-ax1 = subplot(4,1,1);  % Three rows, one column, first plot
+%ax1 = subplot(4,1,1);  % Three rows, one column, first plot
+ax1 = nexttile;
 plot(new_time_utc, interpolated_signal, 'b');  % Plot the interpolated signal
-xlabel('Time (UTC)');
-ylabel('TEMP (C)');
-title('Interpolated Signal Over Time');
+xlabel('Time (UTC)', 'FontSize', font_size);
+ylabel('Tempurature (C)', 'FontSize', font_size);
+title('Interpolated Signal Over Time', 'FontSize', title_size);
 grid on;
 xlim([start_time, end_time]);  % Set xlim for this subplot
 
 % 2nd subplot: Plot average power in the frequency range
-ax2 = subplot(4,1,2);  % Three rows, one column, second plot
+%ax2 = subplot(4,1,2);  % Three rows, one column, second plot
+ax2 = nexttile;
 plot(avg_power_time, avg_power, 'r');  % Plot the average power in the frequency range
-xlabel('Time (UTC)');
-ylabel('AVG POW (dB)');
-title('Average Power in Frequency Range (0.05 - 0.25 Hz)');
+xlabel('Time (UTC)', 'FontSize', font_size);
+ylabel('Average Power (dB)', 'FontSize', font_size);
+title('Average Power in Frequency Range (0.05 - 0.25 Hz)', 'FontSize', title_size);
 grid on;
 xlim([start_time, end_time]);  % Set xlim for this subplot
 
 % 3rd subplot: Plot the spectrogram
-ax3 = subplot(4,1,3);  % Three rows, one column, third plot
+%ax3 = subplot(4,1,3);  % Three rows, one column, third plot
+ax3 = nexttile;
 surf(t_utc, f, p_db, 'EdgeColor', 'none');
 axis tight;
 view(0, 90);
-xlabel('Time (UTC)');
-ylabel('FREQ (Hz)');
-title('Spectrogram - Frequency Change Over Time');
-%colorbar;
+xlabel('Time (UTC)', 'FontSize', font_size);
+ylabel('Frequency (Hz)', 'FontSize', font_size);
+title('Spectrogram - Frequency Change Over Time', 'FontSize', title_size);
+colorbar;
 xlim([start_time, end_time]);  % Set xlim for this subplot
 
 % 4th subplot: Plot the spectrogram
-ax4 = subplot(4,1,4);  % Three rows, one column, third plot
+%ax4 = subplot(4,1,4);  % Three rows, one column, third plot
+ax4 = nexttile;
 surf(t_utc, f, p_db, 'EdgeColor', 'none');
 axis tight;
 view(0, 90);
-xlabel('Time (UTC)');
-ylabel('FREQ (Hz)');
-title('Spectrogram - Frequency Change Over Time');
-%colorbar;
+xlabel('Time (UTC)', 'FontSize', font_size);
+ylabel('Frequency (Hz)', 'FontSize', font_size);
+title('Spectrogram - Anomalous Areas', 'FontSize', title_size);
+colorbar;
 xlim([start_time, end_time]);  % Set xlim for this subplot
 
-linkaxes([ax1, ax2, ax3, ax4], 'x')
+%linkaxes([ax1, ax2, ax3, ax4], 'x')
+
+yticks = ax1.YTick;
+ax1.YTick = yticks(1:end-1);
+yticks = ax2.YTick;
+ax2.YTick = yticks(1:end-1);
+yticks = ax3.YTick;
+ax3.YTick = yticks(1:end-1);
+yticks = ax4.YTick;
+ax4.YTick = yticks(1:end-1);
 
 % Mark detected failure times on the average power plot
 hold on;

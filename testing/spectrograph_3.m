@@ -46,17 +46,18 @@ avg_power = mean(p_db(freq_range, :), 1);  % Average power across the specified 
 avg_power_time = new_time_utc(1) + seconds(t);  % Match the average power time to the time bins
 
 % Define the time range you want to display
-start_time = new_time_utc(1);  % Start time (first timestamp in the interpolated signal)
-end_time = new_time_utc(end);  % End time (last timestamp in the interpolated signal)
+start_time = new_time_utc(2000);  % Start time (first timestamp in the interpolated signal)
+end_time = new_time_utc(3000);  % End time (last timestamp in the interpolated signal)
 
 % Create a figure with two subplots: one for the interpolated data and one for the average power
 figure;
+colormap(jet); % You can replace 'jet' with other colormaps like 'hot', 'parula', or 'turbo'
 
 % 1st subplot: Plot the interpolated signal
 ax1 = subplot(4,1,1);  % Three rows, one column, first plot
 plot(new_time_utc, interpolated_signal, 'b');  % Plot the interpolated signal
 xlabel('Time (UTC)');
-ylabel('Tempurature (C)');
+ylabel('TEMP (C)');
 title('Interpolated Signal Over Time');
 grid on;
 xlim([start_time, end_time]);  % Set xlim for this subplot
@@ -65,7 +66,7 @@ xlim([start_time, end_time]);  % Set xlim for this subplot
 ax2 = subplot(4,1,2);  % Three rows, one column, second plot
 plot(avg_power_time, avg_power, 'r');  % Plot the average power in the frequency range
 xlabel('Time (UTC)');
-ylabel('Average Power (dB)');
+ylabel('AVG POW (dB)');
 title('Average Power in Frequency Range (0.05 - 0.25 Hz)');
 grid on;
 xlim([start_time, end_time]);  % Set xlim for this subplot
@@ -76,7 +77,7 @@ surf(t_utc, f, p_db, 'EdgeColor', 'none');
 axis tight;
 view(0, 90);
 xlabel('Time (UTC)');
-ylabel('Frequency (Hz)');
+ylabel('FREQ (Hz)');
 title('Spectrogram - Frequency Change Over Time');
 colorbar;
 xlim([start_time, end_time]);  % Set xlim for this subplot
@@ -87,7 +88,7 @@ surf(t_utc, f, p_db, 'EdgeColor', 'none');
 axis tight;
 view(0, 90);
 xlabel('Time (UTC)');
-ylabel('Frequency (Hz)');
+ylabel('FREQ (Hz)');
 title('Spectrogram - Frequency Change Over Time');
 %colorbar;
 xlim([start_time, end_time]);  % Set xlim for this subplot

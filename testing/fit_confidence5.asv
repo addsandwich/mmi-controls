@@ -1,8 +1,8 @@
 % Load CSV file
 data = readtable('Experiment-3-Pump.csv');
 
-start_idx = 1480;
-end_idx = 1560;
+start_idx = 1500;
+end_idx = 1550;
 
 % Convert the time column (assume it's the first column) to datetime
 time_utc = datetime(data{start_idx:end_idx,2}, 'InputFormat', 'yyyy-MM-dd HH:mm:ss');  % Adjust format if needed
@@ -24,7 +24,7 @@ num_segments = floor((length(interpolated_signal) - window_size) / (window_size 
 
 % Thresholds
 threshold_improvement = 0.1; % Sensitivity for detecting significant changes
-threshold_improvement2 = 0.1; % Sensitivity for detecting significant changes
+threshold_improvement = 0.1; % Sensitivity for detecting significant changes
 slope_threshold = 0.01;       % Threshold for detecting rapid increases/decreases
 
 % Store transition points, confidence levels, and trend markers
@@ -80,7 +80,7 @@ hold on;
 plot(transitions, interpolated_signal(ismember(new_time_seconds, transitions)), 'ro', 'MarkerSize', 8, 'MarkerFaceColor', 'r', 'DisplayName', 'Transition Points');
 %plot(rapid_changes, interpolated_signal(ismember(new_time_seconds, rapid_changes)), 'p', 'MarkerSize', 10, 'MarkerEdgeColor', [0.4940, 0.1840, 0.5560], 'MarkerFaceColor', [0.4940, 0.1840, 0.5560], 'DisplayName', 'Rapid Changes');
 xlabel('Time (seconds)', 'FontWeight', 'bold', 'FontSize', 12);
-ylabel('Pressure (BAR)', 'FontWeight', 'bold', 'FontSize', 12);
+ylabel('Signal Value', 'FontWeight', 'bold', 'FontSize', 12);
 legend('Location', 'best');
 title('Transition Points and Rapid Changes Detection', 'FontSize', 14, 'FontWeight', 'bold');
 grid on;
